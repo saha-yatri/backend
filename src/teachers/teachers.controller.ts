@@ -37,8 +37,18 @@ export class TeachersController {
   }
 
   @Get()
-  async findAll(): Promise<Teacher[]> {
-    return this.prismaService.teacher.findMany();
+  async findAll() {
+    return this.prismaService.teacher.findMany({
+      select: {
+        name: true,
+        grade: true,
+        level: true,
+        address: true,
+        email: true,
+        phone: true,
+        photo_url: true,
+      },
+    });
   }
 
   @Get(':id')

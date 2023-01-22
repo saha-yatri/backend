@@ -6,12 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 
 import { GradesService } from './grades.service';
 import { CreateGradeDto } from './dto/create-grade.dto';
 import { UpdateGradeDto } from './dto/update-grade.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Student } from '@prisma/client';
 
 @Controller('grades')
 export class GradesController {
@@ -31,8 +33,8 @@ export class GradesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.gradesService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.prismaService.grade.findUnique({ where: { id: id } });
   }
 
   @Patch(':id')
@@ -43,5 +45,10 @@ export class GradesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.gradesService.remove(+id);
+  }
+
+  @Get(':id/students')
+  get_students(@Param('id', ParseIntPipe) id: number): Promise<Student[]> {
+    return this.prismaService.student.findMany({ where: { gradeId: id } });
   }
 }

@@ -23,13 +23,12 @@ enum Tag {
 }
 
 model Grade {
-        id            Int         @id @default(autoincrement())
-        class_name    String
-        class_teacher Teacher     @relation(fields: [teacherId], references: [id])
-        teacherId     Int
-        student       Student[]
-        behaviour     Behaviour[]
-        routine       Routine[]
+        id        Int       @id @default(autoincrement())
+        teacher   Teacher   @relation(fields: [teacherId], references: [id])
+        routine   Routine[]
+        name      String
+        student   Student[]
+        teacherId Int
 }
 
 model Routine {
@@ -72,11 +71,18 @@ model Student {
 model Behaviour {
         id        Int      @id @default(autoincrement())
         datetime  DateTime
-        grade     Grade    @relation(fields: [gradeId], references: [id])
         teacher   Teacher  @relation(fields: [teacherId], references: [id])
         teacherId Int
         tag       Tag
-        gradeId   Int
         student   Student  @relation(fields: [studentId], references: [id])
         studentId Int
+}
+
+model Training {
+        id          Int    @id @default(autoincrement())
+        name        String
+        description String
+        image_url   String
+        duration    String
+        link        String
 }

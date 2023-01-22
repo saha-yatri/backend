@@ -5,9 +5,10 @@ import { AppService } from './app.service';
 import { TeachersModule } from './teachers/teachers.module';
 import { StudentsModule } from './students/students.module';
 import { GradesModule } from './grades/grades.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
-  imports: [TeachersModule, StudentsModule, GradesModule],
+  imports: [TeachersModule, StudentsModule, GradesModule, TagsModule],
   controllers: [AppController],
   providers: [AppService],
 })
