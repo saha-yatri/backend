@@ -29,7 +29,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(1337, "0.0.0.0");
+  await app.listen(3000, '0.0.0.0');
   console.log(`Applicaiton is running on: ${await app.getUrl()}`);
 }
 bootstrap();

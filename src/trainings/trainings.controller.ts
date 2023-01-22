@@ -6,7 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
+
 import { TrainingsService } from './trainings.service';
 import { CreateTrainingDto } from './dto/create-training.dto';
 import { UpdateTrainingDto } from './dto/update-training.dto';
@@ -26,12 +28,12 @@ export class TrainingsController {
 
   @Get()
   findAll() {
-    return this.trainingsService.findAll();
+    return this.prismaService.training.findMany();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.trainingsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.prismaService.training.findFirst({ where: { id } });
   }
 
   @Patch(':id')
