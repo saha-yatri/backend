@@ -18,8 +18,14 @@ enum Level {
 }
 
 enum Tag {
-        HAPPY
+        INTEREST
+        CHEERFUL
+        ACTIVE
         SAD
+        FEAR
+        DISOBIDENT
+        FIGHT
+        BULLY
 }
 
 model Grade {
