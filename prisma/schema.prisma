@@ -71,7 +71,7 @@ model Student {
 
 model Behaviour {
         id        Int      @id @default(autoincrement())
-        logTime   DateTime @default(now())
+        createdAt DateTime @default(now())
         teacher   Teacher  @relation(fields: [teacherId], references: [id])
         teacherId Int
         tag       Tag
