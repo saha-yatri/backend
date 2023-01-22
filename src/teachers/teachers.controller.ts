@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 
 import { TeachersService } from './teachers.service';
-import { CreateTeacherDto } from './dto/create-teacher.dto';
+import { CreateTeacherDto, LoginTeacherDto } from './dto/create-teacher.dto';
 import { UpdateTeacherDto } from './dto/update-teacher.dto';
 
 import {
@@ -36,6 +36,18 @@ export class TeachersController {
     return this.teachersService.create(createTeacherDto);
   }
 
+  @Post('login')
+  async login(@Body() loginTeacherDto: LoginTeacherDto) {
+    const foundUser = await this.prismaService.teacher.findFirst({
+      where: {
+        phone: loginTeacherDto.phone_number,
+      },
+    });
+
+    console.log('found user is ', foundUser);
+    return 'k xa fucche haru';
+  }
+
   @Get()
   async findAll() {
     return this.prismaService.teacher.findMany({
@@ -46,7 +58,7 @@ export class TeachersController {
         address: true,
         email: true,
         phone: true,
-        photo_url: true,
+        photoUrl: true,
       },
     });
   }
