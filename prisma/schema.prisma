@@ -24,29 +24,29 @@ enum Tag {
 
 model Grade {
         id        Int       @id @default(autoincrement())
-        teacher   Teacher   @relation(fields: [teacherId], references: [id])
-        routine   Routine[]
         name      String
-        student   Student[]
+        teacher   Teacher   @relation(fields: [teacherId], references: [id])
         teacherId Int
+        student   Student[]
+        routine   Routine[]
 }
 
 model Routine {
-        id         Int      @id @default(autoincrement())
-        grade      Grade    @relation(fields: [gradeId], references: [id])
-        gradeId    Int
-        teacher    Teacher  @relation(fields: [teacherId], references: [id])
-        teacherId  Int
-        start_time DateTime
-        end_time   DateTime
+        id        Int      @id @default(autoincrement())
+        grade     Grade    @relation(fields: [gradeId], references: [id])
+        gradeId   Int
+        teacher   Teacher  @relation(fields: [teacherId], references: [id])
+        teacherId Int
+        startTime DateTime
+        endTime   DateTime
 }
 
 model Teacher {
         id        Int         @id @default(autoincrement())
         name      String
-        photo_url String
         address   String
         phone     String      @db.VarChar(10)
+        photoUrl  String
         email     String      @unique
         level     Level
         password  String
@@ -56,21 +56,22 @@ model Teacher {
 }
 
 model Student {
-        id            Int         @id @default(autoincrement())
-        name          String
-        photo_url     String
-        address       String
-        phone         String      @db.VarChar(10)
-        guardian_name String
-        grade         Grade       @relation(fields: [gradeId], references: [id])
-        gradeId       Int
-        behaviour     Behaviour[]
-        points        Int         @default(0)
+        id           Int         @id @default(autoincrement())
+        name         String
+        address      String
+        guardianName String
+        phone        String      @db.VarChar(10)
+        grade        Grade       @relation(fields: [gradeId], references: [id])
+        gradeId      Int
+        photoUrl     String
+        behaviour    Behaviour[]
+        points       Int         @default(0)
+        DOB          DateTime
 }
 
 model Behaviour {
         id        Int      @id @default(autoincrement())
-        datetime  DateTime
+        logTime   DateTime @default(now())
         teacher   Teacher  @relation(fields: [teacherId], references: [id])
         teacherId Int
         tag       Tag
@@ -82,7 +83,7 @@ model Training {
         id          Int    @id @default(autoincrement())
         name        String
         description String
-        image_url   String
+        imageUrl    String
         duration    String
         link        String
 }
