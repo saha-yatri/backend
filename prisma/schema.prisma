@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+        provider      = "prisma-client-js"
+        binaryTargets = ["native", "debian-openssl-1.0.x"]
+}
+
+datasource db {
+        provider = "postgresql"
+        url      = env("DATABASE_URL")
+}
+
+enum Level {
+        PREPRIMARY
+        PRIMARY
+        SECONDARY
+}
+
+enum Tag {
+        HAPPY
+        SAD
+}
+
+model Grade {
+        id            Int         @id @default(autoincrement())
+        class_name    String
+        class_teacher Teacher     @relation(fields: [teacherId], references: [id])
+        teacherId     Int
+        student       Student[]
+        behaviour     Behaviour[]
+        routine       Routine[]
+}
+
+model Routine {
+        id         Int      @id @default(autoincrement())
+        grade      Grade    @relation(fields: [gradeId], references: [id])
+        gradeId    Int
+        teacher    Teacher  @relation(fields: [teacherId], references: [id])
+        teacherId  Int
+        start_time DateTime
+        end_time   DateTime
+}
+
+model Teacher {
+        id        Int         @id @default(autoincrement())
+        name      String
+        photo_url String
+        address   String
+        phone     String      @db.VarChar(10)
+        email     String      @unique
+        level     Level
+        password  String
+        behaviour Behaviour[]
+        grade     Grade[]
+        routine   Routine[]
+}
+
+model Student {
+        id            Int         @id @default(autoincrement())
+        name          String
+        photo_url     String
+        address       String
+        phone         String      @db.VarChar(10)
+        guardian_name String
+        grade         Grade       @relation(fields: [gradeId], references: [id])
+        gradeId       Int
+        behaviour     Behaviour[]
+        points        Int         @default(0)
+}
+
+model Behaviour {
+        id        Int      @id @default(autoincrement())
+        datetime  DateTime
+        grade     Grade    @relation(fields: [gradeId], references: [id])
+        teacher   Teacher  @relation(fields: [teacherId], references: [id])
+        teacherId Int
+        tag       Tag
+        gradeId   Int
+        student   Student  @relation(fields: [studentId], references: [id])
+        studentId Int
+}
