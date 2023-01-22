@@ -13,7 +13,7 @@ import { GradesService } from './grades.service';
 import { CreateGradeDto } from './dto/create-grade.dto';
 import { UpdateGradeDto } from './dto/update-grade.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Student } from '@prisma/client';
+import { Grade, Student } from '@prisma/client';
 
 @Controller('grades')
 export class GradesController {
@@ -28,8 +28,8 @@ export class GradesController {
   }
 
   @Get()
-  findAll() {
-    return this.gradesService.findAll();
+  findAll(): Promise<Grade[]> {
+    return this.prismaService.grade.findMany();
   }
 
   @Get(':id')
